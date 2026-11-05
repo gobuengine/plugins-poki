@@ -1,0 +1,6 @@
+# The tests' runs: exports, logs, each game's APPDATA, the plugin copied into the test project, Gobu's caches.
+Tests/.run/
+Tests/projects/*/plugins/
+Tests/projects/*/.gobu/
+Tests/projects/*/.cache/
+__pycache__/

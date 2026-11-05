@@ -1,0 +1,20 @@
+# The Poki plugin's library: it has nothing of Gobu but gobu_plugin.h, so it is a library of its own, never part
+# of Gobu's "*" (Gobu loads it only in a project that enabled the plugin).
+module PluginPoki {
+	standalone = true
+	link_objects = true # Into the library itself: nothing of it would be taken from an archive.
+	sources = ["*.cpp"]
+}
+
+# The plugin's folder (../poki: plugin.json, the libraries, the class reference) among the plugins that come with
+# Gobu, next to the editor: Engine/Binaries/plugins/poki.
+module PluginPokiBundle {
+	standalone = true
+	generate {
+		copy "../poki/plugin.json" "out=//Engine/Binaries/plugins/poki/plugin.json"
+		copy "../poki/icon.svg" "out=//Engine/Binaries/plugins/poki/icon.svg"
+		copy "../poki/doc_classes/Poki.xml" "out=//Engine/Binaries/plugins/poki/doc_classes/Poki.xml"
+		copy "../poki/bin/poki.windows.x86_64.dll" "out=//Engine/Binaries/plugins/poki/bin/poki.windows.x86_64.dll"
+		copy "../poki/bin/libpoki.web.wasm32.wasm" "out=//Engine/Binaries/plugins/poki/bin/libpoki.web.wasm32.wasm"
+	}
+}

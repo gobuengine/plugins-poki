@@ -1,0 +1,5 @@
+gobu scene 1
+
+actor Main : Actor id 1 {
+	script = code
+}

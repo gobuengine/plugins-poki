@@ -1,0 +1,18 @@
+{
+	"id": "poki",
+	"name": "Poki",
+	"version": "1.0.0",
+	"description": "Publish a web game on Poki: its ads, game events, share links, analytics and player through Gobu's Services, and the Poki singleton for what only Poki has (the mobile pill, the ad blocker, signing in).",
+	"author": "Gobu",
+	"category": "Services",
+	"icon": "icon.svg",
+	"api_version": 4,
+	"entry": "gobu_plugin_init",
+	"libraries": {
+		"windows.x86_64": "bin/poki.windows.x86_64.dll",
+		"web.wasm32": "bin/libpoki.web.wasm32.wasm"
+	},
+	"web_head": [
+		"<script src=\"https://game-cdn.poki.com/scripts/v2/poki-sdk.js\"></script>"
+	]
+}

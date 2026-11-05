@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Poki" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<brief_description>
+		What only Poki has (the mobile pill, the ad blocker, signing in); its ads and game events go through [Services].
+	</brief_description>
+	<description>
+		The Poki plugin puts a web game on Poki (poki.com). Its SDK is loaded by the exported page (the plugin's [code]web_head[/code]), and the plugin is the [code]poki[/code] provider of [Services]: the game asks for its ads, game events, share links, analytics and player there, the same calls as with any other service.
+		[codeblock]
+		async fn on_revive_pressed() {
+			# Poki's rewarded break, through Services.
+			if await Services.rewarded_break() {
+				print("Revived")
+			}
+		}
+		[/codeblock]
+		[Services] sends the game events by itself ([code]gameLoadingFinished[/code] when the main scene is ready, [code]gameplayStart[/code] at the player's first input, stop and start around pauses and ads), mutes the game and ignores its input during an ad, as Poki asks. The plugin also keeps the arrows, the space bar and the wheel from scrolling the page around the game.
+		This singleton has the rest of Poki's SDK. Outside a web game (the editor, a desktop build) it is there and does nothing, and [Services] plays its test ads instead. To try the game on Poki before sending it, upload the exported folder to the Poki Inspector (https://inspector.poki.dev).
+	</description>
+	<tutorials>
+		<link title="Game services">https://gobuengine.org/guide/15-services</link>
+	</tutorials>
+	<methods>
+		<method name="is_ad_blocked">
+			<return type="bool" />
+			<description>
+				Whether the SDK could not start because the browser blocks ads: the game goes on without them ([method Services.commercial_break] ends at once).
+			</description>
+		</method>
+		<method name="is_ready">
+			<return type="bool" />
+			<description>
+				Whether Poki's SDK loaded and started. [code]false[/code] outside a web game, in a page without the SDK, or with an ad blocker.
+			</description>
+		</method>
+		<method name="login">
+			<return type="void" />
+			<description>
+				Opens Poki's sign-in. Call it when the player presses a button: the page loads again with the player signed in, and [method Services.get_player_name] gives their name.
+			</description>
+		</method>
+		<method name="move_pill">
+			<return type="void" />
+			<param index="0" name="top_percent" type="float" />
+			<param index="1" name="top_px" type="float" />
+			<description>
+				Moves down the pill Poki shows over the game on phones, so it doesn't cover the game's buttons: [param top_percent] of the screen's height plus [param top_px] pixels from the top.
+			</description>
+		</method>
+	</methods>
+</class>

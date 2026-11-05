@@ -1,0 +1,28 @@
+# The Poki plugin (Gobu reads this folder through Engine/Source/external_plugins.txt): `forja build PluginPoki`
+# builds its libraries into ../poki/bin and puts the plugin among the ones that come with Gobu.
+target PluginPoki {
+	modules = [PluginPokiBundle]
+	requires = [PluginPoki_windows, PluginPoki_web]
+}
+
+# Windows: a DLL, so the editor knows the `Poki` singleton (it does nothing there; Services plays its test ads).
+target PluginPoki_windows {
+	type = shared
+	modules = [PluginPoki]
+	binary = poki.windows.x86_64
+	binaries_dir = "../Plugins/Poki/poki/bin"
+	options { plugin = true }
+}
+
+# The web: a WebAssembly side module, for the templates without threads (as Authentication and Colyseus).
+target PluginPoki_web {
+	platform = web
+	modules = [PluginPoki]
+	binary = libpoki.web.wasm32.wasm
+	binaries_dir = "../Plugins/Poki/poki/bin"
+	options {
+		plugin = true
+		no_threads = true
+	}
+	link_flags = ["-sSIDE_MODULE=2", "-fvisibility=hidden"]
+}

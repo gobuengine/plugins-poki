@@ -1,0 +1,17 @@
+# The runner (run_tests.py) reads the "POKI_TEST" lines in the browser's console, and what the fake PokiSDK was
+# asked ("POKI_SDK"), in order.
+async fn _ready() {
+	print("POKI_TEST provider=", Services.get_provider_name())
+	Services.gameplay_start()
+	shown : bool = await Services.commercial_break()
+	print("POKI_TEST commercial=", shown)
+	rewarded : bool = await Services.rewarded_break()
+	print("POKI_TEST rewarded=", rewarded)
+	url : String = await Services.shareable_url({"level": "3"})
+	print("POKI_TEST url=", url)
+	print("POKI_TEST param=", Services.get_url_param("level"))
+	Services.measure("level", "3", "complete")
+	Poki.move_pill(10.0, 20.0)
+	print("POKI_TEST ready=", Poki.is_ready(), " player=", Services.get_player_name())
+	print("POKI_TEST done")
+}
