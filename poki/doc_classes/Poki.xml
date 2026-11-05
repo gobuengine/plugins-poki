@@ -35,7 +35,7 @@
 		<method name="login">
 			<return type="void" />
 			<description>
-				Opens Poki's sign-in. Call it when the player presses a button: the page loads again with the player signed in, and [method Services.get_player_name] gives their name.
+				Opens Poki's sign-in. Call it when the player presses a button: the page loads again with the player signed in, and [method Services.get_player_name] gives their name. For an online game, sign in through the Authentication plugin instead ([code]Authentication.sign_in_with("poki")[/code]): it gives the token a server checks with Poki.
 			</description>
 		</method>
 		<method name="move_pill">

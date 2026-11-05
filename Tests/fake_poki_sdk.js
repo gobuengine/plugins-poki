@@ -66,5 +66,9 @@
 			log('login');
 			return later(20);
 		},
+		getToken: function () {
+			log('getToken');
+			return later(20, 'fake-poki-token');
+		},
 	};
 })();

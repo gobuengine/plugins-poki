@@ -44,6 +44,13 @@ def export():
 	if os.path.exists(plugin):
 		shutil.rmtree(plugin)
 	shutil.copytree(os.path.join(HERE, '..', 'poki'), plugin)
+	# Authentication (next to this repository), for Poki's sign-in.
+	authentication = os.path.join(HERE, '..', '..', 'Authentication', 'authentication')
+	plugin = os.path.join(PROJECT, 'plugins', 'authentication')
+	if os.path.exists(plugin):
+		shutil.rmtree(plugin)
+	if os.path.exists(authentication):
+		shutil.copytree(authentication, plugin)
 	appdata = os.path.join(RUN, 'appdata')
 	os.makedirs(appdata)
 	env = dict(os.environ, APPDATA=appdata, LOCALAPPDATA=appdata)
@@ -119,14 +126,16 @@ def main():
 		'url=https://poki.com/en/g/test-game?gdlevel=3': 'shareable_url gives Poki\'s link',
 		'param=3': 'get_url_param reads it',
 		'ready=true player=TestUser': 'the SDK is ready and the player is Poki\'s',
+		'signed_in=poki:fake-poki-token username=TestUser': 'Authentication signs in with Poki (its token, for a server to check)',
 	}
 	for line, what in expected.items():
 		check(what, line in game, ' | '.join(game))
 	# What the SDK was asked, in order (getUser goes when it is ready, wherever that falls).
-	calls = [call for call in sdk if call != 'getUser']
+	calls = [call for call in sdk if call not in ('getUser', 'login', 'getToken')]
 	order = ['init', 'gameLoadingFinished', 'gameplayStart', 'gameplayStop', 'commercialBreak', 'gameplayStart', 'gameplayStop', 'rewardedBreak', 'gameplayStart', 'shareableURL {"level":"3"}', 'getURLParam level', 'measure level 3 complete', 'movePill 10 20']
 	check('the SDK is asked in Poki\'s order (never two starts in a row, stop before a break, start after it)', calls[:len(order)] == order, ' | '.join(calls))
 	check('the player is read from the SDK', 'getUser' in sdk)
+	check('the sign-in asks Poki for its login and a token', 'login' in sdk and 'getToken' in sdk)
 	errors = [line for line in text.splitlines() if 'Uncaught' in line or 'SCRIPT ERROR' in line]
 	check('no JavaScript or script errors', not errors, ' | '.join(errors[:5]))
 

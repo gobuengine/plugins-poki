@@ -13,5 +13,12 @@ async fn _ready() {
 	Services.measure("level", "3", "complete")
 	Poki.move_pill(10.0, 20.0)
 	print("POKI_TEST ready=", Poki.is_ready(), " player=", Services.get_player_name())
+	# Poki's sign-in through the Authentication plugin: its token is "poki:<Poki's>", for a server to check.
+	if Meta.class_exists("Authentication") and Poki.is_ready() {
+		Authentication.sign_in_with("poki")
+		signed : Array = await Authentication.signed_in
+		session : Dictionary = signed[1] as Dictionary ?? {}
+		print("POKI_TEST signed_in=", signed[0], " username=", session.get("username", ""))
+	}
 	print("POKI_TEST done")
 }

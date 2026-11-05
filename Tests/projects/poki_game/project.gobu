@@ -7,4 +7,4 @@ run/main_scene="res://main.scene"
 
 [plugins]
 
-enabled=PackedStringArray("poki")
+enabled=PackedStringArray("poki", "authentication")

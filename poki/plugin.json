@@ -1,7 +1,7 @@
 {
 	"id": "poki",
 	"name": "Poki",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Publish a web game on Poki: its ads, game events, share links, analytics and player through Gobu's Services, and the Poki singleton for what only Poki has (the mobile pill, the ad blocker, signing in).",
 	"author": "Gobu",
 	"category": "Services",
